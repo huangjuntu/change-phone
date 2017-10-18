@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+		<title></title>
+		<!--<link rel="stylesheet" type="text/css" href="css/tc.css">-->
+		<link rel="stylesheet" type="text/css" href="css/scrollbar.css">
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+
+		<!--我的夺宝号码-->
+		<div id="tc-wrapper2" style=" height: 146px; position: relative;width:84%;margin:0 auto;">
+			<ul>
+				<li>111111</li><br />
+				<li>111111</li><br />
+				<li>111111</li><br />
+				<li>111111</li><br />
+				<li>111111</li><br />
+				<li>111111</li><br />
+				<li>111111</li><br />
+				<li>111111</li><br />
+			</ul>
+		</div>
+							
+
+		<script type="text/javascript" src="js/iScroll.js"></script>
+		<script type="text/javascript">
+			var myScroll2;
+
+			function loaded() {
+				myScroll2 = new iScroll('tc-wrapper2', {
+					scrollbarClass: 'myScrollbar',
+					hScrollbar: false,
+					vScroll: true,
+					hideScrollbar: false //是否隐藏滚动条  
+				});
+			}
+			document.addEventListener('touchmove', function(e) {
+				e.preventDefault();
+			}, false);
+			document.addEventListener('DOMContentLoaded', loaded, false);
+			/*显示弹层层调用show方法时重新调用new iScroll()*/
+		</script>
+	</body>
+
+</html>
