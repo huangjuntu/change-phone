@@ -31,14 +31,14 @@
 			</div>
 			
 			<!--人员列表-->
-			<div class="select-box">
+			<div class="select-box" style="">
 				<span class="close-btn">
 					<img src="images/close_btn.jpg" />
 		       </span>
 				<div class="wrap">
 					<ul class="first"></ul>
 					<ul class="second"></ul>
-					<div id="tc-wrapper2" style=" height: 146px; position: relative;width:25%;margin:0 auto;">
+					<div id="tc-wrapper2" style=" height: 146px; position: relative;width:84%;margin:0 auto;">
 						<ul class="third"></ul>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 
 		$(".select-res").click(function() {
 			$("#areaMask").fadeIn();
-			$(".select-list").css("max-height","55%");
+			$(".select-list").css("max-height","60%");
 			$(".select-box").animate({"bottom": 0});
 		});
 		
@@ -1087,6 +1087,8 @@
 					if($(this).text().split(' > ')[2] == cname3) hasExist = !0;
 				})
 				hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
+//				只显示一项
+//				hasExist ? alert('所选品类已被添加！') : $('.select-res').append('<p>' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 				
 				$('.select-box').css({
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
