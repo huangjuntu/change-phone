@@ -42,6 +42,7 @@
 					<ul class="third"></ul>
 				</div>
 			</div>
+			<button name="dochange" type="button" id="dochange" class="dochange" style="display: none;">提交</button>
 			 
 		</div>
 		
@@ -60,7 +61,7 @@
 		/*关闭选项*/
 		function clockArea() {
 			$("#areaMask").fadeOut();
-			$(".select-list").css("max-height","84%");
+			$(".select-list").css("max-height","80%");
 			$(".select-box").animate({"bottom": "-100%"});
 //			intProvince();
 		}
@@ -1035,6 +1036,8 @@
 //				$(this).parent().remove();
 				$(this).remove();
 				$(".select-res p").html("已选择"+$(".select-list p").length+"人");
+
+				$(".dochange").hide();
 //				$('.select-box').css({
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
 //				});
@@ -1060,26 +1063,35 @@
 				canClose = !1;
 				$('input.cid', $('.select-res')).val(cid1 + ',' + cid2);
 				$('input.cname', $('.select-res')).val(cname1 + ',' + cname2);
+				
 			});
 			$('ul.third', $('.select-box')).on('click', 'li', function() {
-				$(this).addClass('selected').siblings().removeClass('selected');
+//				$(this).addClass('selected').siblings().removeClass('selected');
+				$(this).addClass('selected');
 				cname3 = $(this).text();
 				cid3 = $(this).attr('val');
 				canClose = !0;
 				var hasExist = !1;
 				$('.select-list').find("p").each(function() {
 					if($(this).text().split(' > ')[2] == cname3) hasExist = !0;
+					$('.select-list').find("p").addClass('selected');
 				})
 //				hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 				
 				if($(".select-list p").length < 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
+					$('.dochange').hide();
+				}else if($(".select-list p").length == 19){
+					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
+					$('.dochange').show();
 				}else{
 					alert('已完成20个的选择,请提交！');
-					$('#content').append('<button name="dochange" type="button" id="dochange" class="dochange">提交</button>');
+					$('.dochange').show();
 					clockArea();
 				}
 				$(".select-res p").html("已选择"+$(".select-list p").length+"人");
+				$(".select-res p").css({"background-color":"white","z-index":"99"});
+				
 				$('.select-box').css({
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
 				});
