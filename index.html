@@ -1065,16 +1065,28 @@
 				$('input.cname', $('.select-res')).val(cname1 + ',' + cname2);
 				
 			});
+			
+//			var i = 0;
+//			var liarr = new Array();
+			
 			$('ul.third', $('.select-box')).on('click', 'li', function() {
 //				$(this).addClass('selected').siblings().removeClass('selected');
 				$(this).addClass('selected');
+				
+//				将点击li值放入数组中
+//				liarr[i] = $(this).html();
+//				var vals = $(this).attr("val");
+//				i++;
+//				$.unique(liarr.sort()); 
+//				console.log(liarr);
+				
 				cname3 = $(this).text();
 				cid3 = $(this).attr('val');
 				canClose = !0;
 				var hasExist = !1;
 				$('.select-list').find("p").each(function() {
 					if($(this).text().split(' > ')[2] == cname3) hasExist = !0;
-					$('.select-list').find("p").addClass('selected');
+//					$('.select-list').find("p").addClass('selected');
 				})
 //				hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 				
