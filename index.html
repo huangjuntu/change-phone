@@ -74,7 +74,7 @@
 //		$.getJSON("http://my.chstar.com.cn/CS/CVP/getStaffTree",{},function(data){
 			$.getJSON("http://works.huangjuntu.vip/menu_linkage/getStaffTree",{},function(data){
 			dataJson = data.data;
-			console.log(dataJson);
+//			console.log("dataJson:"+dataJson);
 		});
 	    
 	    //填充级联的数据，方法二
@@ -1031,13 +1031,26 @@
 				canClose ? $('.select-box').hide() : alert('请选择下级品类！');
 				canClick = !0;
 			});
-
+			
+			
 			$('.select-list').on('click', 'p', function() {
 //				$(this).parent().remove();
+
+				var remove_cid = $(this).attr("class");//获取去除的p的classname
+				
+//				console.log("去除的p的class值为："+remove_cid);
+				if(contains(liarr,remove_cid)){//先判断是否存在被选数组中
+					liarr.remove(remove_cid);//如果存在则从数组中去除
+					$(".third"+remove_cid).removeClass("selected");//去除selected
+				}else{
+					
+				}
+
 				$(this).remove();
 				$(".select-res p").html("已选择"+$(".select-list p").length+"人");
 
 				$(".dochange").hide();
+				
 //				$('.select-box').css({
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
 //				});
@@ -1066,8 +1079,10 @@
 				
 			});
 			
-//			var i = 0;
-//			var liarr = new Array();
+			var i = 0;
+			var liarr = new Array();
+			var n =0;
+			var pp_array = new Array();
 			
 			$('ul.third', $('.select-box')).on('click', 'li', function() {
 //				$(this).addClass('selected').siblings().removeClass('selected');
@@ -1077,11 +1092,15 @@
 //				liarr[i] = $(this).html();
 //				var vals = $(this).attr("val");
 //				i++;
-//				$.unique(liarr.sort()); 
 //				console.log(liarr);
 				
 				cname3 = $(this).text();
 				cid3 = $(this).attr('val');
+				
+				liarr[i] = cid3;//点击第三项的每一个值都存到了liarr数组中
+				i++;
+//				console.log("第三项的逐渐增加的数组："+liarr);
+				
 				canClose = !0;
 				var hasExist = !1;
 				$('.select-list').find("p").each(function() {
@@ -1091,7 +1110,7 @@
 //				hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 				
 				if($(".select-list p").length < 19){
-					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
+					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p class="'+cid3+'">' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 					$('.dochange').hide();
 				}else if($(".select-list p").length == 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
@@ -1101,6 +1120,10 @@
 					$('.dochange').show();
 					clockArea();
 				}
+				pp_array[n] = cid3;
+				n++;
+//				console.log("ss:"+pp_array);
+				
 				$(".select-res p").html("已选择"+$(".select-list p").length+"人");
 				$(".select-res p").css({"background-color":"white","z-index":"99"});
 				
@@ -1112,6 +1135,8 @@
 			});
 
 			//填充级联数据
+			var thirdarr = new Array();//第三列数组
+			var j = 0;
 			function fillData(l1, l2) {
 				var temp_html = "";
 				if(typeof(dataJson.option) != 'undefined' && arguments.length == 0) {
@@ -1124,12 +1149,60 @@
 					});
 				} else if(typeof(dataJson.option[l1].child[l2].child) != 'undefined' && arguments.length == 2) {
 					$.each(dataJson.option[l1].child[l2].child, function(i, pro) {
-						temp_html += '<li val="' + pro.id + '">' + pro.name + '</li>';
-//						temp_html += '<li val="' + pro.name + '</li>';
+//						temp_html += '<li val="' + pro.id + '">' + pro.name + '</li>';
+						temp_html += '<li val="' + pro.id + '"class="third'+pro.id+'">' + pro.name + '</li>';
+						thirdarr[j] = pro.id;
+						j++;
 					});
+//					console.log("第三列数组"+thirdarr);
 				}
 				$('.select-box ul:eq(' + arguments.length + ')').html(temp_html);
 			}
+			
+			var temparr = new Array();//保存点击数组与第三列数组的交集
+			$(document).on('click','.second',function(){
+				
+				for(var k in liarr){
+					for(var m=0;m<liarr.length;m++){
+
+						if(thirdarr.indexOf(liarr[m] == -1)){
+							temparr.push(liarr[m]);
+							$(".third"+temparr[m]).addClass("selected");
+						}
+					}
+				}
+			});
+			
+			$(document).on('click','.second',function(){
+				var temparr = new Array();//保存点击数组与第三列数组的交集
+				for(var k in liarr){
+					for(var m=0;m<liarr.length;m++){
+
+						if(thirdarr.indexOf(liarr[m] == -1)){
+							temparr.push(liarr[m]);
+							$(".third"+temparr[m]).addClass("selected");
+						}
+					}
+				}
+//				console.log("去除重复的数组："+temparr);
+			});
+			
+			function contains(arr, obj) {
+				var i = arr.length;
+				while (i--) {
+					if (arr[i] === obj) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+	        Array.prototype.remove = function(val) {
+	            var index = this.indexOf(val);
+	            if (index > -1) {
+	                this.splice(index, 1);
+	            }
+	        };
 		</script>
 	</body>
 </html>
