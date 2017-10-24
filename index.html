@@ -1130,9 +1130,6 @@
 				if($(".select-list p").length < 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p class="'+cid3+'">' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 					$('.dochange').hide();
-					for(var i = 0;i<=200;i++){
-//						$('.go_top').fadeIn(5000);
-					}
 					
 				}else if($(".select-list p").length == 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
