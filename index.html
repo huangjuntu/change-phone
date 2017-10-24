@@ -32,7 +32,7 @@
 			</div>
 			
 			<!--人员列表-->
-			<div class="select-box">
+			<div class="select-box" animate='0'>
 				<span class="close-btn">
 					<img src="images/btn_close1.png" style="width:100%;height:100%"/>
 		       </span>
@@ -43,32 +43,50 @@
 				</div>
 			</div>
 			<button name="dochange" type="button" id="dochange" class="dochange" style="display: none;">提交</button>
-			 
+			<div class="go_top" style="display: none;"></div>
 		</div>
-		
         <!--content外围的遮罩层-->
 	    <div id="areaMask" class="mask"></div>
         
 		<script src="js/jquery.min.js"></script>
 		<script>
-		$(".select-res").on("click",function(){
-			$("#areaMask").fadeIn();
+//		点击选择框
+//      select-box 缩下时:bottom: 0px; top: 95%; animate=1
+//      select-box 上升时:bottom:0px; animate=0
+		var animate_val = $(".select-box").attr("animate");
+		
+		$(".select-res,.go_top").on("click",function(){
+			$("#areaMask").fadeIn();//遮罩层淡入出现
+			$('.go_top').fadeOut(800);
 			$(".select-list").css("max-height","50%");
 			
-			$(".select-box").animate({"bottom": 0});
-		})
-	
-		/*关闭选项*/
-		function clockArea() {
-			$("#areaMask").fadeOut();
-			$(".select-list").css("max-height","80%");
-			$(".select-box").animate({"bottom": "-100%"});
-//			intProvince();
-		}
-		$("#areaMask, .close-btn").on("click",function(){
-			clockArea();
+			$(".select-box").stop(true, true).animate({"bottom": 0},800);//升上去
+			$(".select-box").attr("animate",0);
 		})
 		
+		/*关闭选项*/
+		function clockArea() {
+			$('.go_top').fadeIn(3000);
+			$("#areaMask").fadeOut();
+			$(".select-list").css("max-height","80%");
+			$(".select-box").animate({"bottom": "-100%"},800);
+			$(".select-box").attr("animate",1);
+			
+			var yy = $(".select-box").attr("animate");
+			if(yy == 0){
+				$(".select-box").attr("animate",0);
+			}else{
+				$(".select-box").attr("animate",1);
+			}
+//			intProvince();
+		}
+//		$("#areaMask, .close-btn").on("click",function(){
+//			clockArea();
+//		})
+		$("#areaMask").on("click",function(){
+			clockArea();
+		})
+
 		//填充级联的数据，方法一：json格式拉取
 		var dataJson;
 //		$.getJSON("http://my.chstar.com.cn/CS/CVP/getStaffTree",{},function(data){
@@ -1013,8 +1031,8 @@
 				l2 = 0;
 			var cname1, cname2, cname3;
 			var cid1, cid2, cid3;
-			var canClick = !0;
-			var canClose = !1;
+			var canClick = !0;//true
+			var canClose = !1;//flase
 //			$('.select-box').css({
 //				left: $('.select-res').offset().left,
 //				top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
@@ -1027,30 +1045,40 @@
 					canClick = !1;
 				}
 			});
+			
 			$('span', $('.select-box')).on("click", function() {
-				canClose ? $('.select-box').hide() : alert('请选择下级品类！');
+//				canClose ? $('.select-box').hide() : alert('请选择下级品类！');
+//				canClose 是true,先计算第一个
+				canClose ? $('.select-box').stop(true, true).animate({"bottom":"-100%"},800) : alert('请选择下级品类！');
 				canClick = !0;
+				
+				if( animate_val==1){
+					$('.go_top').fadeOut();
+					$("#areaMask").fadeIn();
+					$(".select-list").css("max-height","50%");
+					$(".select-box").stop(true, true).animate({"bottom": "0"},800);
+					console.log("111");
+				}else{
+					$('.go_top').fadeIn(3000);
+					$("#areaMask").fadeOut();
+					$(".select-list").css("max-height","80%");
+					$(".select-box").stop(true, true).animate({"bottom": "-100%"},800);
+				}
 			});
 			
 			
 			$('.select-list').on('click', 'p', function() {
 //				$(this).parent().remove();
-
 				var remove_cid = $(this).attr("class");//获取去除的p的classname
-				
 //				console.log("去除的p的class值为："+remove_cid);
 				if(contains(liarr,remove_cid)){//先判断是否存在被选数组中
 					liarr.remove(remove_cid);//如果存在则从数组中去除
 					$(".third"+remove_cid).removeClass("selected");//去除selected
-				}else{
-					
-				}
-
+				}else{}
 				$(this).remove();
 				$(".select-res p").html("已选择"+$(".select-list p").length+"人");
-
 				$(".dochange").hide();
-				
+				$(".go_top").hide();
 //				$('.select-box').css({
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
 //				});
@@ -1081,26 +1109,16 @@
 			
 			var i = 0;
 			var liarr = new Array();
-			var n =0;
-			var pp_array = new Array();
-			
 			$('ul.third', $('.select-box')).on('click', 'li', function() {
 //				$(this).addClass('selected').siblings().removeClass('selected');
 				$(this).addClass('selected');
 				
-//				将点击li值放入数组中
-//				liarr[i] = $(this).html();
-//				var vals = $(this).attr("val");
-//				i++;
-//				console.log(liarr);
-				
 				cname3 = $(this).text();
 				cid3 = $(this).attr('val');
-				
-				liarr[i] = cid3;//点击第三项的每一个值都存到了liarr数组中
+				//点击第三项的每一个值都存到了liarr数组中
+				liarr[i] = cid3;
 				i++;
 //				console.log("第三项的逐渐增加的数组："+liarr);
-				
 				canClose = !0;
 				var hasExist = !1;
 				$('.select-list').find("p").each(function() {
@@ -1112,6 +1130,10 @@
 				if($(".select-list p").length < 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p class="'+cid3+'">' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 					$('.dochange').hide();
+					for(var i = 0;i<=200;i++){
+//						$('.go_top').fadeIn(5000);
+					}
+					
 				}else if($(".select-list p").length == 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 					$('.dochange').show();
@@ -1120,13 +1142,9 @@
 					$('.dochange').show();
 					clockArea();
 				}
-				pp_array[n] = cid3;
-				n++;
-//				console.log("ss:"+pp_array);
 				
 				$(".select-res p").html("已选择"+$(".select-list p").length+"人");
 				$(".select-res p").css({"background-color":"white","z-index":"99"});
-				
 				$('.select-box').css({
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
 				});
@@ -1159,7 +1177,8 @@
 				$('.select-box ul:eq(' + arguments.length + ')').html(temp_html);
 			}
 			
-			var temparr = new Array();//保存点击数组与第三列数组的交集
+			//保存点击数组与第三列数组的交集
+			var temparr = new Array();
 			$(document).on('click','.second',function(){
 				
 				for(var k in liarr){
