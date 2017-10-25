@@ -1068,6 +1068,7 @@
 			
 			
 			$('.select-list').on('click', 'p', function() {
+				$(".third").height("");
 //				$(this).parent().remove();
 				var remove_cid = $(this).attr("class");//获取去除的p的classname
 //				console.log("去除的p的class值为："+remove_cid);
@@ -1083,8 +1084,10 @@
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
 //				});
 			})
-
+			var secondheight = "";
 			$('ul.first', $('.select-box')).on('click', 'li', function() {
+				$(".third").height("");
+				
 				$(this).addClass('selected').siblings().removeClass('selected');
 				$('ul.third').html('');
 				fillData($(this).index());
@@ -1094,6 +1097,8 @@
 				canClose = !1;
 				$('input.cid', $('.select-res')).val(cid1);
 				$('input.cname', $('.select-res')).val(cname1);
+				secondheight = $(".second").height();
+				$(".third").height(secondheight);
 			});
 			$('ul.second', $('.select-box')).on('click', 'li', function() {
 				$(this).addClass('selected').siblings().removeClass('selected');
