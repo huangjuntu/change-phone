@@ -66,7 +66,12 @@
 		
 		/*关闭选项*/
 		function clockArea() {
-			$('.go_top').fadeIn(3000);
+			if($(".select-list p").length < 19){
+				$('.go_top').fadeIn(3000);
+			}else{
+				$('.go_top').hide();
+			}
+			
 			$("#areaMask").fadeOut();
 			$(".select-list").css("max-height","80%");
 			$(".select-box").animate({"bottom": "-100%"},800);
@@ -1079,7 +1084,12 @@
 				$(this).remove();
 				$(".select-res p").html("已选择"+$(".select-list p").length+"人");
 				$(".dochange").hide();
-				$(".go_top").hide();
+				
+				if($(".select-list p").length < 19){
+				$('.go_top').fadeIn(3000);
+				}else{
+					$('.go_top').hide();
+				}
 //				$('.select-box').css({
 //					top: $('.select-res').offset().top + $('.select-res').outerHeight(true)
 //				});
@@ -1135,7 +1145,6 @@
 				if($(".select-list p").length < 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p class="'+cid3+'">' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 					$('.dochange').hide();
-					
 				}else if($(".select-list p").length == 19){
 					hasExist ? alert('所选品类已被添加！') : $('.select-list').append('<p>' + cname1 + ' > ' + cname2 + ' > ' + cname3 + '<a></a><input type="hidden" value="' + cid1 + ',' + cid2 + ',' + cid3 + '" name="cid[]" /><input type="hidden" value="' + cname1 + ',' + cname2 + ',' + cname3 + '" name="cname[]" /></p>');
 					$('.dochange').show();
@@ -1182,10 +1191,8 @@
 			//保存点击数组与第三列数组的交集
 			var temparr = new Array();
 			$(document).on('click','.second',function(){
-				
 				for(var k in liarr){
 					for(var m=0;m<liarr.length;m++){
-
 						if(thirdarr.indexOf(liarr[m] == -1)){
 							temparr.push(liarr[m]);
 							$(".third"+temparr[m]).addClass("selected");
