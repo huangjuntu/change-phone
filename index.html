@@ -1201,20 +1201,6 @@
 				}
 			});
 			
-			$(document).on('click','.second',function(){
-				var temparr = new Array();//保存点击数组与第三列数组的交集
-				for(var k in liarr){
-					for(var m=0;m<liarr.length;m++){
-
-						if(thirdarr.indexOf(liarr[m] == -1)){
-							temparr.push(liarr[m]);
-							$(".third"+temparr[m]).addClass("selected");
-						}
-					}
-				}
-//				console.log("去除重复的数组："+temparr);
-			});
-			
 			function contains(arr, obj) {
 				var i = arr.length;
 				while (i--) {
